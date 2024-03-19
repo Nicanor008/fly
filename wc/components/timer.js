@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Custom Timer Component</title>
-</head>
-<body>
+import { BaseComponent } from "../common/BaseComponent";
 
-<!-- Create an instance of the Timer Component -->
-<custom-timer />
-<script type="text/javascript" src="./common/BaseComponent/index.js"></script>
-
-<script>
 class CustomTimer extends BaseComponent {
   constructor() {
     super();
@@ -51,7 +39,3 @@ class CustomTimer extends BaseComponent {
 }
 
 customElements.define('custom-timer', CustomTimer);
-</script>
-
-</body>
-</html>
