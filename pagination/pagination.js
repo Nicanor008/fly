@@ -4,6 +4,7 @@ class PaginationComponent extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.totalPages = parseInt(this.getAttribute('total-pages')) || 1;
     this.totalItems = parseInt(this.getAttribute('total-items')) || 0;
+    this.itemsPerPage = parseInt(this.getAttribute('items-per-page')) || 10;
     this.currentPage = 1;
     this.render();
   }
@@ -11,11 +12,21 @@ class PaginationComponent extends HTMLElement {
   connectedCallback() {
     this.shadowRoot.querySelector('#prev').addEventListener('click', () => this.prevPage());
     this.shadowRoot.querySelector('#next').addEventListener('click', () => this.nextPage());
+    this.shadowRoot.querySelector('#items-per-page').addEventListener('change', (event) => this.changeItemsPerPage(event));
   }
 
   render() {
     this.shadowRoot.innerHTML = `
       <style>
+        .pagination-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .pagination-items-count {
+          display: flex;
+          align-items: center;
+        }
         .pagination {
           display: flex;
           justify-content: center;
@@ -36,11 +47,21 @@ class PaginationComponent extends HTMLElement {
           opacity: 0.5;
         }
       </style>
+      <div class="pagination-wrapper">
+        <div class="pagination-items-count">
+          <p>Items per page</p>&nbsp;
+          <select id="items-per-page">
+              <option value="10" ${this.itemsPerPage === 10 ? 'selected' : ''}>10</option>
+              <option value="25" ${this.itemsPerPage === 25 ? 'selected' : ''}>25</option>
+              <option value="100" ${this.itemsPerPage === 100 ? 'selected' : ''}>100</option>
+          </select>
+        </div>
       <div class="pagination">
         <button id="prev" disabled>Previous</button>
         <span>Page ${this.currentPage} of ${this.totalPages}</span>
         <span>Total Items: ${this.totalItems}</span>
         <button id="next" ${this.currentPage === this.totalPages ? 'disabled' : ''}>Next</button>
+      </div>
       </div>
     `;
   }
@@ -57,6 +78,13 @@ class PaginationComponent extends HTMLElement {
       this.currentPage++;
       this.updateButtons();
     }
+  }
+
+  changeItemsPerPage(event) {
+    this.itemsPerPage = parseInt(event.target.value);
+    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    this.currentPage = 1;
+    this.updateButtons();
   }
 
   updateButtons() {
