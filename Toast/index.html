@@ -7,7 +7,13 @@
   <title>fly - Toast Web Component</title>
 </head>
 <body>
-  <toast></toast>
+  <toast-notification 
+    variant="error" 
+    time-to-display="5000" 
+    title="Error" 
+    description="Operation completed successfully!" 
+    cta-text="Dismiss">
+  </toast-notification>
 
   <script src="toast.js"></script>
 </body>
