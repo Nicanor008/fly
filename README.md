@@ -36,3 +36,5 @@ Check out the demo images on https://fly.nicanor.me. In your root index.html, im
 
 <date-picker></date-picker>
 ```
+
+![fly](assets/fly.png)
